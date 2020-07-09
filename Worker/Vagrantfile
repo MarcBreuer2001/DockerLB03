@@ -1,0 +1,37 @@
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.define "Worker01" do |worker1|
+    worker1.vm.box = "ubuntu/xenial64"
+
+        worker1.vm.provider "Virtualbox" do |vb|
+          vb.memory = "2048"
+          vb.disksize.size = "50GB"
+          vb.cpus = "2"
+          vb.name = "DOCK-WORK-001(Docker_Worker)"
+     
+        end
+        
+
+    worker1.vm.hostname = "DOCK-WORK-001"
+    worker1.vm.network "private_network", ip:"192.168.36.101"
+    worker1.vm.provision "shell", path: "worker.sh"
+  end 
+  config.vm.define "Worker02" do |worker2|
+    worker2.vm.box = "ubuntu/xenial64"
+
+    worker2.vm.provider "Virtualbox" do |vb|
+     vb.memory = "2048"
+      vb.disksize.size = "50GB"
+      vb.cpus = "2"
+      vb.name = "DOCK-WORK-002(Docker_Worker)"
+ 
+    end
+
+  worker2.vm.hostname = "DOCK-WORK-002"
+  worker2.vm.network "private_network", ip:"192.168.36.102"
+  worker2.vm.provision "shell", path: "worker.sh"
+ 
+  end
+
+end
