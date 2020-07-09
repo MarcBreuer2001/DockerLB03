@@ -1,6 +1,33 @@
 # Dokumentation Docker LB3
 
 ## Docker Swarm
+Docker Swarm ist die Inhouse Cluster funktion von Docker. Dies wird gebraucht um Docker Conainter simpel zu skalieren und anzupassen. 
+Mit Docker Swarm hat man ausserdem die möglich keit sehr einfach ein Failover einzurichten. 
+High Availability ist mit docker Swarm auch ein klaks. 
+
+### Docker Swarm Installation 
+Um den Docker Swarm zu konfigurieren muss mann zuerst mehrere Server haben. Unter diesen Servern definiert mann dann einen Manager. Dieser deligiert dann denn Nodes die Container (im Docker umfeld "Worker" gennant.)
+
+### Manager Konfiguration
+Zuerst muss mann die IP des Manager Server herausfinden. diese ist sehr wichtig bei der Konfig, da diese im Command mitgegeben werden muss um den Workern zu zeigen wo der Manager ist. 
+
+Folgender Command wird gebraucht um den Swarm zu erstellen: 
+
+**docker swarm init --advertise-addr 192.168.122.14** <---- IP des Manager Servers. Diese wird dann im Token für die Workers gespeichert.
+
+Nun wurde ein Swarm erstellt mit dem Server mit der IP 192.168.122.14 als manager.
+
+### Worker Konfig 
+Die Worker Konfiguration ist ziemlich simple, da mann auf dem Manager Node einen Token bekommt, welcher mann dann beim Worker eingetragen muss. 
+Der Befehl ist wie folgt: 
+
+**docker swarm join --token SWMTKN-1-01y8ba4esviwwllq26eu9ijtb1fweksugum1aovi7285ze2ezt-evwywmh5rqnbtd7oyho42ni6g 192.168.36.100:2377**
+
+Der Port 2377 muss für die Kommunikation Offen sein. 
+
+
+
+
 
 ## Portainer
 
@@ -17,17 +44,23 @@ Portainer ist ein GUI für Docker, was die Verwaltung von Appliances vereinfacht
 ### Docker installation 
 
 Bevor Sie Docker-Pakete installieren, aktualisieren Sie bitte das Repository auf Ihrem System und aktualisieren Sie die Pakete.
+
 **Sudo apt update**
 
 **Sudo apt upgrade**
+
 Installieren Sie nun Docker mit dem untenstehenden apt-Befehl:
+
+
 
 **sudo apt install docker.io -y**
 
 Nachdem die Installation abgeschlossen ist, starten Sie den Docker-Dienst und ermöglichen es ihm, jederzeit beim Systemstart zu starten:
+
 **Systemctl start docker**
 
 **Systemctl enable docker**
+
 
 Ob Docker auf dem Server installiert ist, überprüfen Sie mit dem folgenden Befehl:
 Docker version
@@ -39,9 +72,13 @@ In diesem Tutorial werden wir Portainer als Docker-Container installieren. Die I
 
 **docker stack deploy --compose-file=portainer-agent-stack.yml portainer**
 
+
 Portainer läuft jetzt als Container, überprüfen Sie dies mit dem Befehl docker ps:
+
 **Docker stack**
+
 oder aber auch mit 
+
 **Docker ps**
 
 Nun  konnten wir auf das GUI Zugreifen. dort mussten wir dann noch das Admin Passwort anpassen. (Achtung wenn dies nicht innert 10 min passiert wird der Container wieder destroyed und mann darf von anfang anfangen)
